@@ -59,7 +59,7 @@ npm run preview
 (`.github/workflows/deploy.yml`), который собирает проект и публикует `dist`
 на GitHub Pages.
 
-Базовый путь сборки — `/group-chat-ws/`, он задан в `vite.config.ts`
+Базовый путь сборки — `/ws-group-chat/`, он задан в `vite.config.ts`
 и соответствует имени репозитория. Если репозиторий будет называться иначе,
 поправьте `base` в `vite.config.ts`.
 

@@ -11,5 +11,11 @@ export const WS_URL =
   import.meta.env.VITE_WS_URL ?? 'wss://inai-col3.fishrungames.com/chat/'
 
 export const ACCESS_TOKEN_STORAGE_KEY = 'group-chat.access-token'
+/**
+ * Set after an explicit logout. The backend keeps the refresh cookie alive for
+ * the whole week, so without this flag a reload would silently sign the user
+ * back in.
+ */
+export const SIGNED_OUT_STORAGE_KEY = 'group-chat.signed-out'
 
 export const MAX_MESSAGE_LENGTH = 2000

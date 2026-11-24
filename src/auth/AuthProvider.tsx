@@ -15,7 +15,12 @@ import {
   register as registerRequest,
 } from '../api/auth'
 import { getTokenExpiry, isTokenExpired } from '../lib/jwt'
-import { readStoredToken, writeStoredToken } from '../lib/storage'
+import {
+  readSignedOut,
+  readStoredToken,
+  writeSignedOut,
+  writeStoredToken,
+} from '../lib/storage'
 import type { UserProfile } from '../types'
 import { AuthContext, type AuthContextValue, type AuthStatus } from './AuthContext'
 
@@ -75,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const completeSignIn = useCallback(
     (response: { access: string; user?: UserProfile }, fallbackName?: string) => {
+      writeSignedOut(false)
       applyToken(response.access)
 
       const profile =
@@ -125,6 +131,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(async () => {
     const token = accessToken
+    writeSignedOut(true)
     clearSession()
 
     if (!token) return
@@ -141,6 +148,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     const restore = async () => {
+      if (readSignedOut()) {
+        writeStoredToken(null)
+        if (!cancelled) setStatus('guest')
+        return
+      }
+
       const stored = readStoredToken()
       let token = stored && !isTokenExpired(stored) ? stored : null
 
