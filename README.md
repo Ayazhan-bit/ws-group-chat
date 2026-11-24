@@ -98,3 +98,4 @@ src/
 ├── styles/              # global.css, auth.css, chat.css
 └── types.ts
 ```
+# ws-group-chat
